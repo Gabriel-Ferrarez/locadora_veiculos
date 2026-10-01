@@ -1,16 +1,22 @@
-# bank
+# Locadora de Veículos
 
-A new Flutter project.
+Avaliação prática de Programação para Dispositivos Móveis II, feita a partir do Projeto Bank.
 
-## Getting Started
+- **Tema:** 20. Locadora de Veículos
+- **Aluno:** Gabriel Antônio Ferrarez Oliveira
+- **Entidade:** `LocacaoVeiculo`, com `valorLocacao` (`double`) e `numeroContrato` (`int`)
+- **Ícone:** `Icons.directions_car`
 
-This project is a starting point for a Flutter application.
+Os dados ficam somente em memória. O app não usa persistência nem a camada `database`.
 
-A few resources to get you started if this is your first Flutter project:
+## Execução
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+```bash
+flutter pub get
+flutter run
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Evidências
+
+- `evidencias/formulario.png`: formulário de cadastro com os campos preenchidos
+- `evidencias/lista.png`: lista depois da confirmação, com o registro novo

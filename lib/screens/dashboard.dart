@@ -1,62 +1,49 @@
 import 'package:flutter/material.dart';
-import './contatos/lista_contatos.dart';
+import './locacoes/lista.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final Color corPrincipal = Colors.indigo.shade900;
+
     return Scaffold(
-      appBar: AppBar(title: Text("Dashboard")),
+      appBar: AppBar(title: const Text("Locadora de Veículos")),
 
       body: Column(
-        // alinhamento vertical
-        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
-        //alinhamento horizontal
         crossAxisAlignment: CrossAxisAlignment.start,
-
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Image.asset("images/bytebank_logo.png"),
+            padding: const EdgeInsets.all(24.0),
+            child: Center(
+              child: Icon(Icons.directions_car, size: 120, color: corPrincipal),
+            ),
           ),
 
           Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Container(
               padding: const EdgeInsets.all(8.0),
-
-              color: Colors.green.shade700,
-
+              color: corPrincipal,
               height: 120,
-              width: 100,
-
+              width: 120,
               child: Material(
-                color: const Color.fromARGB(0, 0, 0, 0),
-
+                color: Colors.transparent,
                 child: InkWell(
-                  
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => const ListaContatos(),
-                      ),
+                      MaterialPageRoute(builder: (context) => ListaLocacoes()),
                     );
                   },
-
-                  child: Column(
+                  child: const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-
-                    //crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Icon(Icons.people, color: Colors.white, size: 32),
-
+                      Icon(Icons.directions_car, color: Colors.white, size: 32),
                       SizedBox(height: 8),
-
                       Text(
-                        "Contacts",
+                        "Locações",
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     ],
