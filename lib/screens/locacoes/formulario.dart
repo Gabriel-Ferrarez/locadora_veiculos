@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../components/editor.dart';
 import '../../models/locacao_veiculo.dart';
+import '../../repository/locacao_repository.dart';
 
 class FormularioLocacao extends StatefulWidget {
-  const FormularioLocacao({super.key});
+  final LocacaoRepository repository;
+
+  const FormularioLocacao({super.key, required this.repository});
 
   @override
   State<StatefulWidget> createState() {
@@ -16,6 +19,8 @@ class FormularioLocacaoState extends State<FormularioLocacao> {
       TextEditingController();
   final TextEditingController _controladorCampoValorLocacao =
       TextEditingController();
+
+  bool _enviando = false;
 
   static const _tituloAppBar = 'Nova locação de veículo';
   static const _rotuloCampoValorLocacao = 'Valor da locação (R\$)';
@@ -61,16 +66,15 @@ class FormularioLocacaoState extends State<FormularioLocacao> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: ElevatedButton.icon(
-                onPressed: () {
-                  debugPrint("Botão registrar locação pressionado");
-                  _criaLocacao(
-                    context,
-                    _controladorCampoNumeroContrato,
-                    _controladorCampoValorLocacao,
-                  );
-                },
-                icon: const Icon(Icons.check),
-                label: const Text(_textoBotaoConfirmar),
+                onPressed: _enviando ? null : _criaLocacao,
+                icon: _enviando
+                    ? const SizedBox(
+                        width: 18,
+                        height: 18,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const Icon(Icons.check),
+                label: Text(_enviando ? 'Enviando...' : _textoBotaoConfirmar),
               ),
             ),
           ],
@@ -78,30 +82,49 @@ class FormularioLocacaoState extends State<FormularioLocacao> {
       ),
     );
   }
-}
 
-void _criaLocacao(
-  BuildContext context,
-  TextEditingController controladorCampoNumeroContrato,
-  TextEditingController controladorCampoValorLocacao,
-) {
-  final int? numeroContrato = int.tryParse(controladorCampoNumeroContrato.text);
-  // Aceita vírgula como separador decimal (padrão brasileiro)
-  final double? valorLocacao = double.tryParse(
-    controladorCampoValorLocacao.text.replaceAll('.', '').replaceAll(',', '.'),
-  );
+  Future<void> _criaLocacao() async {
+    debugPrint("Botão registrar locação pressionado");
+    final int? numeroContrato = int.tryParse(
+      _controladorCampoNumeroContrato.text.trim(),
+    );
+    // Aceita vírgula como separador decimal (padrão brasileiro)
+    final double? valorLocacao = double.tryParse(
+      _controladorCampoValorLocacao.text
+          .trim()
+          .replaceAll('.', '')
+          .replaceAll(',', '.'),
+    );
 
-  if (numeroContrato != null && valorLocacao != null) {
-    final locacaoCriada = LocacaoVeiculo(valorLocacao, numeroContrato);
+    if (numeroContrato == null || valorLocacao == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Informe um nº de contrato e um valor válidos.'),
+        ),
+      );
+      return;
+    }
 
+    final LocacaoVeiculo locacaoCriada = LocacaoVeiculo(
+      valorLocacao,
+      numeroContrato,
+    );
     debugPrint('$locacaoCriada'); // Teste de saída no console
 
-    Navigator.pop(context, locacaoCriada);
-  } else {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Informe um nº de contrato e um valor válidos.'),
-      ),
-    );
+    setState(() => _enviando = true);
+    try {
+      // O repository decide: API, SQLite ou os dois (offline-first).
+      final StatusCadastro status = await widget.repository.cadastrar(
+        locacaoCriada,
+      );
+      if (!mounted) return;
+      Navigator.pop(context, status);
+    } catch (erro) {
+      if (!mounted) return;
+      setState(() => _enviando = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Não foi possível registrar a locação: $erro')),
+      );
+    }
   }
 }

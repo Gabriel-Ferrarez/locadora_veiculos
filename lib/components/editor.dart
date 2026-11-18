@@ -6,7 +6,13 @@ class Editor extends StatelessWidget {
   final String? dica;
   final IconData? icone;
 
-  const Editor({super.key, this.controlador, this.rotulo, this.dica, this.icone});
+  const Editor({
+    super.key,
+    this.controlador,
+    this.rotulo,
+    this.dica,
+    this.icone,
+  });
 
   @override
   Widget build(BuildContext context) {

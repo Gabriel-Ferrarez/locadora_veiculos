@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import './repository/locacao_repository.dart';
+import './repository/locacao_repository_offline_first.dart';
 import './screens/dashboard.dart';
 
 void main() {
-  runApp(const LocadoraApp());
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Estratégia de persistência usada pelo app. Para comparar, dá para trocar
+  // por LocacaoRepositoryLocal() (só SQLite) ou LocacaoRepositoryRemoto()
+  // (só API) sem mexer em nenhuma tela.
+  final LocacaoRepository repository = LocacaoRepositoryOfflineFirst();
+
+  runApp(LocadoraApp(repository: repository));
 }
 
 class LocadoraApp extends StatelessWidget {
-  const LocadoraApp({super.key});
+  final LocacaoRepository repository;
+
+  const LocadoraApp({super.key, required this.repository});
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +66,7 @@ class LocadoraApp extends StatelessWidget {
         ),
       ),
 
-      home: const Dashboard(),
+      home: Dashboard(repository: repository),
     );
   }
 }

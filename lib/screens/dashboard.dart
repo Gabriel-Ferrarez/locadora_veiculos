@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import '../repository/locacao_repository.dart';
 import './locacoes/lista.dart';
 
 class Dashboard extends StatelessWidget {
-  const Dashboard({super.key});
+  final LocacaoRepository repository;
+
+  const Dashboard({super.key, required this.repository});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +37,10 @@ class Dashboard extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ListaLocacoes()),
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ListaLocacoes(repository: repository),
+                      ),
                     );
                   },
                   child: const Column(
