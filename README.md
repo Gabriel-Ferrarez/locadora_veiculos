@@ -4,7 +4,7 @@
 
 **Nome completo do estudante:** Gabriel Antônio Ferrarez Oliveira
 
-**Link da API publicada:** https://locadora-veiculos-api.onrender.com
+**Link da API publicada:** https://locadora-veiculos-api-ev60.onrender.com
 
 **Descrição resumida da aplicação:** aplicativo Flutter de uma locadora de veículos para registrar locações (nº do contrato e valor da locação). Os cadastros são enviados para uma API própria (Node.js + Express) com banco PostgreSQL no Render e também ficam guardados no SQLite do aparelho. Se a API estiver fora do ar, o cadastro não se perde: é salvo localmente como **pendente** e pode ser enviado depois pelo botão **Sincronizar pendentes** (estratégia offline-first).
 

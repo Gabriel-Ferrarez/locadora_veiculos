@@ -4,7 +4,7 @@
 /// temporariamente por um endereço inválido, por exemplo:
 ///   const String apiBaseUrl = 'https://endereco-invalido.onrender.com';
 /// Depois restaure o valor correto e use "Sincronizar pendentes" (Teste 3).
-const String apiBaseUrl = 'https://locadora-veiculos-api.onrender.com';
+const String apiBaseUrl = 'https://locadora-veiculos-api-ev60.onrender.com';
 
 /// O plano gratuito do Render "dorme" sem uso e leva alguns segundos para
 /// acordar na primeira requisição. Um tempo maior evita marcar como pendente
