@@ -9,6 +9,9 @@ android {
     namespace = "com.example.bank"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
+    // Usa o build-tools 36, já instalado junto com o compileSdk 36, em vez
+    // de baixar o 35 (padrão do AGP 8.11).
+    buildToolsVersion = "36.0.0"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
